@@ -10,6 +10,8 @@ app.config['MONGODB_SETTINGS'] = {
     'host': 'localhost',
     'port': 27017
 }
+import logging
+logging.basicConfig(level=logging.INFO)
 app.secret_key = 'some key'
 db = MongoEngine()
 login_manager = LoginManager()
@@ -69,9 +71,9 @@ class User(db.Document):
 
 @app.route('/')
 def opening_page():
-    return render_template("welcome.html")
+    return render_template("opening_page.html")
 
-@app.route('/logged_in.html')
+@app.route('/logged_in')
 def logged_in():
     return render_template("logged_in.html")
 
@@ -92,6 +94,7 @@ def create_record():
                 password=record['password'],
                 email=record['email'])
     user.save()
+    #logging.info("trying to create login")
     return jsonify(user.to_json())
 
 @app.route('/', methods=['POST'])
@@ -108,7 +111,7 @@ def update_record():
 
 @app.route('/', methods=['DELETE'])
 @login_required
-def delte_record():
+def delete_record():
     record = json.loads(request.data)
     user = User.objects(name=record['name']).first()
     if not user:
@@ -121,3 +124,4 @@ def delte_record():
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
+

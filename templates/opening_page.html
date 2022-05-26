@@ -6,7 +6,7 @@
     </head>
     <body>
         <div class="hero">   
-            <script>
+            <!-- <script>
                 function goPython(){
                     jQuery.ajax({
                     type: "PUT",
@@ -14,7 +14,7 @@
                     data: {name: "cat", password: "cat", email: "cat@gmail.com"}
                     })
                 }
-            </script>
+            </script> -->
             <div class="opening"> 
                 <h8>Welcome to Go Flow</h8>
                 <br>
@@ -33,7 +33,7 @@ End of Header and Navigation Bar
             class="close" title="Close Modal">&times;</span>
 
             <!-- Modal Content -->
-            <form class="modal-content animate" action="/logged_in.html">
+            <form class="modal-content animate" action="/logged_in">
                 <div class="imgcontainer">
                 <img src="static\images\account_icon.png" alt="Avatar" class="avatar">
                 </div>
@@ -59,6 +59,7 @@ End of Header and Navigation Bar
 
                 <script>
                     function goPython(){
+                        console.log("in login")
                         jQuery.ajax({
                         type: "POST",
                         url: "/login",
@@ -76,7 +77,7 @@ End of Header and Navigation Bar
     
                 <!-- Modal Content -->
                 <!-- <form class="modal-content animate" action="/action_page.php"> -->
-                <form class="modal-content animate" action="/welcome.html">
+                <form class="modal-content animate" action="/logged_in">
                     <div class="imgcontainer">
                         <img src="static\images\account_icon.png" alt="Avatar" class="avatar">
                     </div>
@@ -106,8 +107,18 @@ End of Header and Navigation Bar
 
                         <div class="container" style="background-color:white">
                             <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
-                            <button type="submit" class="signup">Sign Up</button>
+                            <button type="submit" onclick="createAccount()" class="signup">Sign Up</button>
                         </div>
+                        <script>
+                            function createAccount(){
+                                jQuery.ajax({
+                                    type: "PUT",
+                                    url: "/",
+                                    data: {name: "cat", password: "cat", email: "cat@gmail.com"}
+                                })
+                                console.log("create account")
+                            }
+                        </script>
                 </form>
                 </div>
         </div>

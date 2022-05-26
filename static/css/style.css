@@ -25,7 +25,8 @@
 
 .hero::before {    
   content: "";
-  background-image: url("blue_background.jpg");
+  /* background-image: url("blue_background.jpg"); */
+  background-color: white;
   background-size: cover;
   position: absolute;
   top: 0px;

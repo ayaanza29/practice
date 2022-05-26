@@ -6,16 +6,19 @@
     </head>
     <body>
         <div class="hero">
-            <label id = "testing">Hello</label>
+            <label id = "testing">Hello </label>
             <script>
                 //function goPython(){}
                 jQuery.ajax({
                     type: "POST",
                     url: "/user_info",
                     dataType: "json",
-                    data: FormData
-                }).done(function(data){
-                    console.log(data)
+                    info: FormData,
+                    encode: true
+                }).done(function(info){
+                    console.log("hi");
+                    console.log(info);
+                    document.getElementById("testing").innerHTML="Hello " + (info["data"])["message"];
                 })
                 
                 // document.getElementById("testing")
