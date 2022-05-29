@@ -4,9 +4,10 @@ from flask_login import (current_user, LoginManager,
                              login_user, logout_user,
                              login_required)
 from flask_mongoengine import MongoEngine
+from matplotlib import collections
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'your_database',
+    'db': 'web_application_login',
     'host': 'localhost',
     'port': 27017
 }
@@ -18,6 +19,8 @@ login_manager = LoginManager()
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+connect()
+#collection =  db['users']
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -31,6 +34,7 @@ def login():
     user = User.objects(name=username,
                         password=password).first()
     if user:
+        print()
         login_user(user)
         return jsonify(user.to_json())
     else:
@@ -87,13 +91,15 @@ def query_records():
         return jsonify(user.to_json())
 
 @app.route('/', methods=['PUT'])
-@login_required
+#@login_required
 def create_record():
+    print("hiiiiiii")
     record = json.loads(request.data)
     user = User(name=record['name'],
                 password=record['password'],
                 email=record['email'])
     user.save()
+    #collection.insert_one(user)
     #logging.info("trying to create login")
     return jsonify(user.to_json())
 
@@ -124,4 +130,5 @@ def delete_record():
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
+
 
