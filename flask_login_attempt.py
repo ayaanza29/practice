@@ -1,25 +1,27 @@
 import json
+import logging
+logging.basicConfig(level=logging.INFO)
 from flask import Flask, g, request, jsonify, render_template
 from flask_login import (current_user, LoginManager,
                              login_user, logout_user,
                              login_required)
 from flask_mongoengine import MongoEngine
+from mongoengine import *
 from matplotlib import collections
 app = Flask(__name__)
+#mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]
+#connect(host="mongodb://localhost:27017/web_application_login")
 app.config['MONGODB_SETTINGS'] = {
     'db': 'web_application_login',
     'host': 'localhost',
     'port': 27017
 }
-import logging
-logging.basicConfig(level=logging.INFO)
 app.secret_key = 'some key'
 db = MongoEngine()
 login_manager = LoginManager()
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-connect()
 #collection =  db['users']
 
 @login_manager.user_loader
@@ -58,6 +60,7 @@ def user_info():
     return jsonify(**resp)
 
 class User(db.Document):
+    meta = {'collection': 'User'}
     name = db.StringField()
     password = db.StringField()
     email = db.StringField()
