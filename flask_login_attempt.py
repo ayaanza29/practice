@@ -1,7 +1,7 @@
 import json
 import logging
 logging.basicConfig(level=logging.INFO)
-from flask import Flask, g, request, jsonify, render_template
+from flask import Flask, g, request, jsonify, render_template, redirect
 from flask_login import (current_user, LoginManager,
                              login_user, logout_user,
                              login_required)
@@ -30,19 +30,25 @@ def load_user(user_id):
 
 @app.route('/login', methods=['POST'])
 def login():
-    info = json.loads(request.data)
-    username = info.get('username', 'guest')
-    password = info.get('password', '')
-    user = User.objects(name=username,
+    # info = json.loads(request.data)
+    # name = info.get('name', 'guest')
+    # password = info.get('password', '')
+    name = request.form['name']
+    password = request.form['password']
+    # info = request.get_json()
+    # name = info.get('name', 'guest')
+    # password = info.get('password', '')
+    user = User.objects(name=name,
                         password=password).first()
     if user:
         print()
         login_user(user)
-        return jsonify(user.to_json())
+        return redirect("/logged_in")
+        # return jsonify(user.to_json())
     else:
         return jsonify({"status": 401,
                         "reason": "Username or Password Error"})
-
+ 
 @app.route('/logout', methods=['POST'])
 def logout():
     logout_user()
@@ -52,12 +58,12 @@ def logout():
 @app.route('/user_info', methods=['POST'])
 def user_info():
     if current_user.is_authenticated:
-        resp = {"result": 200,
+        resp = {"status": 200,
                 "data": current_user.to_json()}
     else:
-        resp = {"result": 401,
+        resp = {"status": 401,
                 "data": {"message": "user no login"}}
-    return jsonify(**resp)
+    return jsonify(resp)
 
 class User(db.Document):
     meta = {'collection': 'User'}
@@ -75,6 +81,29 @@ class User(db.Document):
         return False
     def get_id(self):
         return str(self.id)
+
+class Job():
+    def __init__(self, job_description, fcs_files, qc_files, normalize_files, normalize_graph, downsample_files, ):
+        self.job_description = job_description
+    def add_fcs(self):
+        self.fcs_files
+        return 42
+    def get_fcs_names(self):
+        self.fcs_files
+        return 42
+
+
+class UserData(db.Document):
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+    def create_new_job():
+        return True
+    def get_jobList():
+        return True
+    def get_jobList():
+        return True
+
 
 @app.route('/')
 def opening_page():
@@ -94,7 +123,7 @@ def query_records():
         return jsonify(user.to_json())
 
 @app.route('/', methods=['PUT'])
-#@login_required
+@login_required
 def create_record():
     print("hiiiiiii")
     record = json.loads(request.data)
