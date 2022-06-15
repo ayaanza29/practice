@@ -81,28 +81,32 @@ class User(db.Document):
         return False
     def get_id(self):
         return str(self.id)
-
-class Job():
-    def __init__(self, job_description, fcs_files, qc_files, normalize_files, normalize_graph, downsample_files, ):
-        self.job_description = job_description
-    def add_fcs(self):
-        self.fcs_files
-        return 42
-    def get_fcs_names(self):
-        self.fcs_files
+    def get_name(self):
+        return str(self.name)
+    def create_new_job(self):
         return 42
 
+# class Job():
+#     def __init__(self, job_description, fcs_files, qc_files, normalize_files, normalize_graph, downsample_files, ):
+#         self.job_description = job_description
+#     def add_fcs(self):
+#         self.fcs_files
+#         return 42
+#     def get_fcs_names(self):
+#         self.fcs_files
+#         return 42
 
-class UserData(db.Document):
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-    def create_new_job():
-        return True
-    def get_jobList():
-        return True
-    def get_jobList():
-        return True
+
+# class UserData(db.Document):
+#     def __init__(self, username, email):
+#         self.username = username
+#         self.email = email
+#     def create_new_job():
+#         return True
+#     def get_jobList():
+#         return True
+#     def get_jobList():
+#         return True
 
 
 @app.route('/')
